@@ -1,0 +1,269 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Clyde",
+	"patterns": [
+		{ "include": "#comments" },
+		{ "include": "#escape" },
+		{ "include": "#block" },
+		{ "include": "#diverts" },
+		{ "include": "#divertParent" },
+		{ "include": "#tags" },
+		{ "include": "#lineId" },
+		{ "include": "#speaker" },
+		{ "include": "#variations" },
+		{ "include": "#options" },
+		{ "include": "#logicBlock" },
+		{ "include": "#textInQuotes" },
+		{ "include": "#interpolatedVariable" }
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+				"name": "comment.line.double-dash.clyde",
+				"begin": "--",
+				"end": "$"
+
+				}
+			]
+		},
+
+		"escape": {
+			"name": "constant.character.escape.clyde",
+			"match": "\\\\."
+		},
+
+		"block": {
+			"begin": "==",
+			"end": "$",
+			"beginCaptures": {
+			  "0": { "name": "keyword.clyde" }
+			},
+			"name": "block.clyde",
+			"patterns": [{ "include": "#blockName" }]
+		},
+
+		"blockName": {
+			"patterns": [
+				{
+					"name": "support.variable.clyde",
+					"match": "[A-Za-z _]+"
+				}
+
+			]
+		},
+
+		"diverts": {
+			"begin": "->",
+			"end": "$|<-",
+			"beginCaptures": {
+			  "0": { "name": "keyword.clyde" }
+			},
+			"endCaptures": {
+				"0": { "name": "keyword.clyde" }
+			},
+			"name": "divert.clyde",
+			"patterns": [
+				{ 
+					"name": "support.constant.clyde",
+					"match": "\\s*END\\s*"
+				},
+				{
+					"name": "support.variable.clyde",
+					"match": "[A-Za-z _]+"
+				},
+				{ "include": "#logicBlock" }
+			]
+		},
+
+		"divertParent": {
+			"name": "keyword.clyde",
+			"match": "<-"
+		},
+
+		"variations": {
+			"begin": "\\(\\s*(shuffle)?\\s*(sequence|cycle|once)?",
+			"end": "\\)",
+			"beginCaptures": {
+			  "0": { "name": "keyword.clyde" }
+			},
+			"endCaptures": {
+				"0": { "name": "keyword.clyde" }
+			},
+			"name": "variations.clyde",
+			"patterns": [
+				{ "include": "#escape" },
+				{ "include": "#lineId" },
+				{ "include": "#tags" },
+				{ "include": "#speaker" },
+				{ "include": "#diverts" },
+				{ "include": "#divertParent" },
+				{ "include": "#comments" },
+				{ "include": "#variations" },
+				{ 
+					"name": "keyword.clyde",
+					"match": "-"
+				},
+				{ "include": "#logicBlock" },
+				{ "include": "#textInQuotes" },
+				{ "include": "#interpolatedVariable" }
+			]
+		},
+
+		"options": {
+			"begin": "^\\s*[*|+|>]",
+			"end": "$",
+			"beginCaptures": {
+			  "0": { "name": "keyword.clyde" }
+			},
+			"name": "options.clyde",
+			"patterns": [
+				{ "include": "#escape" },
+				{ "include": "#lineId" },
+				{ "include": "#tags" },
+				{ "include": "#speaker" },
+				{ "include": "#diverts" },
+				{ "include": "#divertParent" },
+				{ "include": "#comments" },
+				{ "include": "#variations" },
+				{ "include": "#optionDisplay" },
+				{ "include": "#logicBlock" },
+				{ "include": "#textInQuotes" },
+				{ "include": "#interpolatedVariable" }
+			]
+		},
+
+		"optionDisplay": {
+			"begin": "\\[",
+			"end": "\\]",
+			"beginCaptures": {
+			  "0": { "name": "keyword.clyde" }
+			},
+			"endCaptures": {
+				"0": { "name": "keyword.clyde" }
+			},
+			"name": "options.clyde",
+			"patterns": [
+				{ "include": "#escape" },
+				{ "include": "#lineId" },
+				{ "include": "#tags" },
+				{ "include": "#speaker" },
+				{ "include": "#textInQuotes" },
+				{ "include": "#interpolatedVariable" }
+			]
+		},
+
+		"tags": {
+			"name": "string.clyde",
+			"match": "#[a-zA-Z0-9_]+"
+		},
+
+		"lineId": {
+			"name": "support.variable.clyde",
+			"match": "\\$[a-zA-Z0-9_]+"
+		},
+
+		"speaker": {
+			"name": "support.variable.clyde",
+			"match": "[a-zA-Z0-9_ ]+:"
+		},
+
+		"logicBlock": {
+			"begin": "\\{\\s*(set|trigger|when)?",
+			"end": "\\s*\\}",
+			"beginCaptures": {
+			  "0": { "name": "keyword.clyde" }
+			},
+			"endCaptures": {
+				"0": { "name": "keyword.clyde" }
+			},
+			"name": "logicBlock.clyde",
+			"patterns": [
+				{ "include": "#literals" },
+				{ "include": "#identifier" },
+				{ "include": "#operators" },
+				{ "include": "#constants" }
+			]
+		},
+
+		"literals": {
+			"patterns": [
+				{ 
+					"name": "constant.numeric.clyde",
+					"match": "\\d+(\\.\\d*)?"
+				},
+				{
+					"name": "constant.language.boolean.clyde",
+					"match": "true|false"
+				},
+
+				{
+					"name": "string.quoted.double.clyde",
+					"match": "\\\".*\\\""
+				}
+			]
+		},
+
+		"constants": {
+			"name": "support.constant.clyde",
+			"match": "OPTIONS_COUNT"
+		},
+
+		"identifier": {
+			"name": "support.variable.clyde",
+			"match": "[a-zA_Z_][a-zA-Z0-9_]+"
+		},
+
+		"operators": {
+			"name": "keyword.operator.clyde",
+			"patterns": [
+				{
+					"name": "keyword.operator.clyde",
+					"match": "isnt|ISNT"
+				},
+				{
+					"name": "keyword.operator.clyde",
+					"match": "and|or|not|is|AND|OR|NOT|IS"
+				},
+				{
+					"name": "keyword.operator.clyde",
+					"match": "&&|\\|\\||<=|>=|==|!="
+				},
+				{
+					"name": "keyword.operator.clyde",
+					"match": "\\*|\\+|-|\\^|\\/|%|<|>|!"
+				},
+				{
+					"name": "keyword.operator.clyde",
+					"match": "\\+=|-=|\\*=|\\/=|%=|\\^="
+				},
+				{
+					"name": "keyword.operator.clyde",
+					"match": "="
+				}
+			]
+		},
+
+		"textInQuotes": {
+			"begin": "\\\"",
+			"end": "\\\"",
+			"beginCaptures": {
+			  "0": { "name": "string.quoted.double" }
+			},
+			"endCaptures": {
+				"0": { "name": "string.quoted.double" }
+			},
+			"name": "textInQuotes.clyde",
+			"patterns": [
+				{ "include": "#interpolatedVariable" },
+				{ "name": "text.clyde", "match": "[^\"%]*" }
+			]
+		},
+
+		"interpolatedVariable": {
+			"name": "support.variable.clyde",
+			"match": "\\%[A-Za-z_][A-Za-z_0-9]*\\%"
+		}
+	},
+	"scopeName": "source.clyde"
+}

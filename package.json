@@ -1,0 +1,25 @@
+{
+    "name": "clyde-dialogue-language-vscode",
+    "displayName": "Clyde Dialogue Language",
+    "description": "Clyde Dialogue Language grammar for VSCode",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.53.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "clyde",
+            "aliases": ["Clyde", "clyde"],
+            "extensions": [".clyde"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "clyde",
+            "scopeName": "source.clyde",
+            "path": "./syntaxes/clyde.tmLanguage.json"
+        }]
+    }
+}
